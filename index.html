@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PC GAMER // Checklist de Montagem</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<!-- ================= BACKGROUND CIRCUIT LAYER ================= -->
+<svg class="board-bg" id="boardBg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"></svg>
+
+<!-- ================= STATUS BAR (fixed) ================= -->
+<header class="statusbar">
+  <div class="statusbar__brand">
+    <i class="fa-solid fa-microchip"></i>
+    <span>BUILD.OS</span>
+  </div>
+  <nav class="statusbar__leds" id="ledStrip" aria-label="Progresso de leitura por componente"></nav>
+  <div class="statusbar__progress">
+    <span id="progressLabel">0/10 componentes revisados</span>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="hero__inner">
+    <p class="hero__eyebrow"><i class="fa-solid fa-terminal"></i> <span id="bootText"></span><span class="cursor">_</span></p>
+    <h1 class="hero__title">
+      A LISTA DO QUE<br><span class="hero__title-accent">BUSCAR</span> EM UM PC GAMER
+    </h1>
+    <p class="hero__subtitle">
+      Todo componente conversa com o vizinho antes de conversar com o jogo. Socket com socket, watt com watt, cabo com conector.
+      Este guia organiza essa conversa em 10 estações — na ordem por prioridade e comunicação.
+    </p>
+    <div class="hero__actions">
+      <a href="#fluxo" class="btn btn--primary"><i class="fa-solid fa-diagram-project"></i> Ver o fluxo de decisão</a>
+      <a href="#componentes" class="btn btn--ghost"><i class="fa-solid fa-list-check"></i> Ir para a checklist</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DIAGRAMA MERMAID ================= -->
+<section class="flow" id="fluxo">
+  <div class="section-head">
+    <span class="section-head__tag">// 00 — mapa de dependências</span>
+    <h2>Quem manda em quem</h2>
+    <p>A placa mãe é o barramento central: ela decide o que os outros componentes têm permissão de ser. Clique em um bloco do diagrama para pular direto para a estação correspondente.</p>
+  </div>
+  <div class="flow__diagram-wrap">
+    <div class="mermaid" id="mermaidDiagram">
+flowchart TD
+    CPU["01 · CPU<br/><span class='mn'>define socket + chipset</span>"]:::node
+    MB["05 · Placa Mãe<br/><span class='mn'>o barramento central</span>"]:::hub
+    RAM["02 · RAM<br/><span class='mn'>tipo + velocidade</span>"]:::node
+    STO["03 · Armazenamento<br/><span class='mn'>SATA ou M.2</span>"]:::node
+    GPU["04 · Placa de Vídeo<br/><span class='mn'>VRAM + consumo</span>"]:::node
+    PSU["07 · Fonte<br/><span class='mn'>watts totais + conectores</span>"]:::power
+    COOL["06 · Cooler<br/><span class='mn'>ar ou água</span>"]:::node
+    CAB["10 · Cabos<br/><span class='mn'>a fiação de tudo</span>"]:::power
+    MON["08 · Monitor"]:::peripheral
+    KEY["09 · Teclado"]:::peripheral
+    MOU["09 · Mouse"]:::peripheral
+
+    CPU -->|socket| MB
+    MB -->|slots| RAM
+    MB -->|SATA / M.2| STO
+    MB -->|PCIe| GPU
+    CPU -->|encaixe do cooler| COOL
+    CPU -->|TDP| PSU
+    GPU -->|consumo| PSU
+    MB -->|conector 24-pin| PSU
+    PSU -->|energia| CAB
+    COOL -->|PWM / ARGB| CAB
+    MB -.->|porta de vídeo| MON
+    MB -.->|USB| KEY
+    MB -.->|USB| MOU
+
+    classDef node fill:#182620,stroke:#c17a45,stroke-width:1.5px,color:#eef5f0,rx:6,ry:6
+    classDef hub fill:#20342a,stroke:#e29a5f,stroke-width:2.5px,color:#fff,font-weight:bold,rx:6,ry:6
+    classDef power fill:#241a17,stroke:#ff6b5b,stroke-width:1.5px,color:#eef5f0,rx:6,ry:6
+    classDef peripheral fill:#152420,stroke:#6ee7a0,stroke-width:1.5px,color:#eef5f0,rx:6,ry:6
+    </div>
+  </div>
+  <p class="flow__hint"><i class="fa-solid fa-hand-pointer"></i> Dica: a Placa Mãe (em destaque) é o único bloco que se conecta com quase todos os outros — por isso ela é pesquisada por último, mas decide tudo antes.</p>
+</section>
+
+<!-- ================= COMPONENTES ================= -->
+<section class="components" id="componentes">
+  <div class="section-head">
+    <span class="section-head__tag">// 01–10 — estações de checagem</span>
+    <h2>A checklist, estação por estação</h2>
+    <p>Marque como revisado ao concluir a pesquisa de cada peça. O painel de status no topo acompanha seu progresso.</p>
+  </div>
+
+  <div class="rail" id="rail"></div>
+
+  <div class="cards" id="cardsContainer"></div>
+</section>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <p><i class="fa-solid fa-microchip"></i> BUILD.OS — checklist de montagem para PC Gamer</p>
+    <p class="footer__note">Nenhum dado é enviado a servidores — seu progresso fica salvo apenas neste navegador.</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js"></script>
+<script src="assets/data.js"></script>
+<script src="assets/script.js"></script>
+</body>
+</html>
