@@ -152,7 +152,7 @@ const COMPONENTS = [
   },
   {
     id: "mouse",
-    number: "09",
+    number: "10",
     name: "Mouse",
     tagline: "precisão na mira",
     icon: "fa-computer-mouse",
@@ -167,7 +167,7 @@ const COMPONENTS = [
   },
   {
     id: "cables",
-    number: "10",
+    number: "11",
     name: "Cabos",
     tagline: "se existe cabo, em algum lugar você vai usar",
     icon: "fa-plug",
